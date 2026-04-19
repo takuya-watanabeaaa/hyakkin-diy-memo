@@ -2,8 +2,33 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "100均高見えDIY | プチプラを高見え！簡単まとめ",
-  description: "普通に買うと高いあのアイテムを、ダイソーやセリアなどの100均アイテムを使って簡単＆おしゃれにDIYするアイデアをまとめました。",
+  title: {
+    default: '100均高見えDIY | プチプラで作るおしゃれインテリアまとめ',
+    template: '%s | 100均高見えDIY',
+  },
+  description: '普通に買うと高いあのインテリアが、ダイソー・セリア・キャンドゥなどの100均アイテムだけで簡単＆おしゃれに作れる！キャスター・マグネット・ワイヤーネット・アイアンバー活用など、高見えDIYを徹底まとめ。',
+  metadataBase: new URL('https://100yen-diy.vercel.app'),
+  openGraph: {
+    title: '100均高見えDIY | プチプラで作るおしゃれインテリアまとめ',
+    description: '普通に買うと数千〜数万円するインテリアを、100均アイテムだけで作る高見えDIYを紹介しています。',
+    url: 'https://100yen-diy.vercel.app',
+    siteName: '100均高見えDIY',
+    locale: 'ja_JP',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '100均高見えDIY',
+    description: '普通に買うと高いインテリアを100均DIYで！',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
+  alternates: {
+    canonical: 'https://100yen-diy.vercel.app',
+  },
 };
 
 export default function RootLayout({
