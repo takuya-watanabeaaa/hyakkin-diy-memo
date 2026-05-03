@@ -51,9 +51,6 @@ export default function RootLayout({
               100均DIYメモ
               <span>| ダイソー・セリア中心の小さな工作記録</span>
             </Link>
-            <nav className="header-nav" aria-label="サイト内">
-              <Link href="/affiliate">比較記事</Link>
-            </nav>
           </div>
         </header>
         <div className="site-affiliate-banner-wrap">

@@ -716,21 +716,6 @@ a:hover {
   color: #2e7d32;
 }
 
-/* ── ヘッダー補助ナビ ── */
-.header-nav {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.header-nav a {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--accent-dark);
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-
 /* ── アフィリエイト比較記事 ── */
 .affiliate-page {
   padding-bottom: 48px;
