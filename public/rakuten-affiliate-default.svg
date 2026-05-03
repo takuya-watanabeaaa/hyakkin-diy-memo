@@ -1,15 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 90" width="600" height="90" role="img" aria-labelledby="title desc">
-  <title id="title">})4gJ·Di</title>
-  <desc id="desc">DIYnP™„Äüë’})4g"</desc>
-  <defs>
-    <linearGradient id="rakutenBannerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#e53935"/>
-      <stop offset="55%" stop-color="#bf0000"/>
-      <stop offset="100%" stop-color="#8b0000"/>
-    </linearGradient>
-  </defs>
-  <rect width="600" height="90" rx="10" fill="url(#rakutenBannerGrad)"/>
-  <rect x="3" y="3" width="594" height="84" rx="8" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2"/>
-  <text x="300" y="40" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="22" font-weight="700">})4gJ·Di</text>
-  <text x="300" y="66" text-anchor="middle" fill="#ffdede" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="500">P™ûåwûÎ°Ãº’"</text>
-</svg>

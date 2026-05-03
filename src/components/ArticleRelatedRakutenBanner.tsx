@@ -37,11 +37,9 @@ export function ArticleRelatedRakutenBanner({ article }: Props) {
           rel={sponsoredRel(r.mainAffiliate)}
           className="article-related-rakuten__banner-link"
         >
-          <span className="article-related-rakuten__banner-title">
-            楽天市場で関連商品を見る
-          </span>
+          <span className="article-related-rakuten__banner-title">楽天市場</span>
           <span className="article-related-rakuten__banner-sub">
-            検索結果ページが開きます
+            この記事の関連商品（検索結果）<span aria-hidden> →</span>
           </span>
         </a>
 
