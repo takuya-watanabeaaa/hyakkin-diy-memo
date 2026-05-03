@@ -32,9 +32,17 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
+
+# Python スタンドアロン生成（main.py）— .gitkeep のみ追跡
+/output/*
+!/output/.gitkeep
+
+# YouTube チャンネル監視のローカル状態（Actions では cache で保持）
+tools/affiliate/.cache/
 
 # typescript
 *.tsbuildinfo

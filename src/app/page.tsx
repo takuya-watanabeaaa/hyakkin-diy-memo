@@ -19,8 +19,12 @@ export default function Home() {
     <div className="container">
       <section className="hero">
         <div className="hero-box">
-          <h1>100均高見えDIY</h1>
-          <p>100円ショップのアイテムだけで、普通に買うと高いインテリアを「高見え」DIY。<br/>ちょっとの工夫で、洗練された空間へ。</p>
+          <h1>100均DIYメモ</h1>
+          <p>
+            ダイソーやセリアで買えるすのこ・ネット・キャスターなどをつなぎ合わせて、収納や見た目を少しよくする試しごとを書き溜めています。
+            <br />
+            記事には材料の目安と手順メモがあるので、気になるものから真似してみてください。
+          </p>
         </div>
       </section>
 
@@ -59,7 +63,7 @@ export default function Home() {
       {/* ── 記事グリッド ── */}
       <section>
         <h2 className="section-title">
-          {filtered.length > 0 ? `${filtered.length}件のDIYアイデア` : '該当する記事が見つかりません'}
+          {filtered.length > 0 ? `${filtered.length}件の記事` : '該当する記事がありません'}
         </h2>
         <div className="grid">
           {filtered.map((article) => (

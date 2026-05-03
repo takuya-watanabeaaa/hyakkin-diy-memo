@@ -1,0 +1,10 @@
+[
+  {
+    "slug": "sample-welcome",
+    "title": "このページについて（サンプル）",
+    "sourceUrl": "https://example.com",
+    "sourceKind": "article",
+    "createdAt": "2026-05-03T00:00:00+00:00",
+    "description": "Python ツールで生成した比較記事がここに並びます。下の手順で最初の1本を作成してください。"
+  }
+]

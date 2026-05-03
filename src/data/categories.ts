@@ -21,7 +21,7 @@ export const itemCategories: ItemCategory[] = [
   { id: "wire",   label: "ワイヤーネット",   emoji: "🔩", desc: "吊り下げ・ラック・デスク整理" },
   { id: "iron",   label: "アイアンバー",     emoji: "🔧", desc: "棚受け・ヴィンテージ風DIY" },
   { id: "wood",   label: "板材・すのこ",     emoji: "🪵", desc: "棚・テーブル・ベッドサイド" },
-  { id: "paint",  label: "塗料・ニス",       emoji: "🎨", desc: "高見え仕上げ・リメイク" },
+  { id: "paint",  label: "塗料・ニス",       emoji: "🎨", desc: "塗装・リメイクの記事" },
 ];
 
 export const roomCategories: RoomCategory[] = [

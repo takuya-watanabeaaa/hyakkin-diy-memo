@@ -1,0 +1,49 @@
+# Vercel を GitHub 連携だけで使っている場合は、この Workflow は不要です（push で Vercel 側が自動ビルド）。
+# Actions から明示的にデプロイしたいときだけ、リポジトリ Secrets を設定して有効にしてください。
+#
+# 必要な Secrets（Vercel Dashboard → Project → Settings → Git → または vercel link の値）:
+#   VERCEL_TOKEN        … https://vercel.com/account/tokens
+#   VERCEL_ORG_ID       … team / personal の ID
+#   VERCEL_PROJECT_ID   … 対象プロジェクト ID
+#
+# GitHub と Vercel の「両方」が同じ push でビルドすると二重になるので、どちらか一方に寄せてください。
+
+name: Deploy Production (Vercel)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+    paths:
+      - "content/**"
+      - "src/**"
+      - "public/**"
+      - "package.json"
+      - "package-lock.json"
+      - "next.config.ts"
+      - "tsconfig.json"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # 既定 OFF（Vercel の Git 連携だけ使う場合は変数を設定しない）。
+    # `workflow_dispatch` の手動実行は常に試みる（Secrets 未設定なら失敗）。
+    if: ${{ vars.ENABLE_VERCEL_GITHUB_ACTION == 'true' || github.event_name == 'workflow_dispatch' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - run: npm ci
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: "--prod"

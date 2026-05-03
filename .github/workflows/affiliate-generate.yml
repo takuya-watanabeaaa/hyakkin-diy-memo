@@ -1,0 +1,56 @@
+# フェーズ型パイプライン（tools/affiliate/main.py）を Actions で実行する。
+# Secrets に OPENAI_API_KEY とアフィリエイト用変数を設定してから使ってください。
+#
+# チャンネル新着の自動処理は .github/workflows/affiliate-channel-watch.yml を参照。
+
+name: Affiliate article (phased pipeline)
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "YouTube または記事 URL"
+        required: true
+        type: string
+      dry_run:
+        description: "dry-run（LLM なし・プレースホルダーのみ）"
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: tools/affiliate/requirements.txt
+
+      - name: Install Python deps
+        run: pip install -r tools/affiliate/requirements.txt
+
+      - name: Run pipeline
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          AMAZON_ASSOCIATE_TAG: ${{ secrets.AMAZON_ASSOCIATE_TAG }}
+          RAKUTEN_AFFILIATE_ID: ${{ secrets.RAKUTEN_AFFILIATE_ID }}
+          RAKUTEN_SEARCH_LINK_TEMPLATE: ${{ secrets.RAKUTEN_SEARCH_LINK_TEMPLATE }}
+          A8_LINK_TEMPLATE: ${{ secrets.A8_LINK_TEMPLATE }}
+          A8_LINK_TEMPLATE_ALT: ${{ secrets.A8_LINK_TEMPLATE_ALT }}
+        run: |
+          if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
+            python tools/affiliate/main.py --url "${{ github.event.inputs.url }}" --dry-run
+          else
+            python tools/affiliate/main.py --url "${{ github.event.inputs.url }}"
+          fi
+
+      - name: Upload output
+        uses: actions/upload-artifact@v4
+        with:
+          name: affiliate-output
+          path: output/
+          if-no-files-found: warn
