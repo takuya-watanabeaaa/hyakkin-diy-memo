@@ -16,17 +16,15 @@ export function RakutenAffiliateBanner() {
         rel={cfg.isAffiliate ? 'noopener noreferrer sponsored' : 'noopener noreferrer'}
         className="rakuten-affiliate-banner__link"
       >
-        {cfg.imageSrc ? (
-          // eslint-disable-next-line @next/next/no-img-element -- 外部バナー URL は任意ドメインのため img を使用
-          <img
-            src={cfg.imageSrc}
-            alt={cfg.alt}
-            className="rakuten-affiliate-banner__img"
-            loading="lazy"
-          />
-        ) : (
-          <span className="rakuten-affiliate-banner__cta">{cfg.alt}</span>
-        )}
+        {/* eslint-disable-next-line @next/next/no-img-element -- 外部バナー URL / 静的 SVG のため img */}
+        <img
+          src={cfg.imageSrc}
+          alt={cfg.alt}
+          className="rakuten-affiliate-banner__img"
+          width={600}
+          height={90}
+          loading="lazy"
+        />
       </a>
       <p className="rakuten-affiliate-banner__pr">
         {cfg.isAffiliate

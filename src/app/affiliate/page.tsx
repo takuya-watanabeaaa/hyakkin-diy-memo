@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { RakutenAffiliateBanner } from '@/components/RakutenAffiliateBanner';
 import { readAffiliateManifest } from '@/lib/affiliate-content';
 
 export const metadata: Metadata = {
@@ -29,8 +28,6 @@ export default function AffiliateIndexPage() {
           記事は Python ツールが <code style={{ fontSize: '0.9em' }}>content/affiliate/</code> に出力しています。
         </p>
       </header>
-
-      <RakutenAffiliateBanner />
 
       <section>
         <h2 className="section-title">{entries.length}件</h2>

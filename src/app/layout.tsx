@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
+import { RakutenAffiliateBanner } from "@/components/RakutenAffiliateBanner";
 import { siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -54,6 +55,11 @@ export default function RootLayout({
             </nav>
           </div>
         </header>
+        <div className="site-affiliate-banner-wrap">
+          <div className="container">
+            <RakutenAffiliateBanner />
+          </div>
+        </div>
         <main className="main-content">
           {children}
         </main>

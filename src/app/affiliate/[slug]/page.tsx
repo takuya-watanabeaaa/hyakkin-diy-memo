@@ -4,7 +4,6 @@ import { notFound } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
-import { RakutenAffiliateBanner } from '@/components/RakutenAffiliateBanner';
 import {
   getManifestEntry,
   readAffiliateManifest,
@@ -56,8 +55,6 @@ export default async function AffiliateArticlePage({ params }: Props) {
         <span style={{ margin: '0 6px' }}>›</span>
         <span>{entry.title}</span>
       </nav>
-
-      <RakutenAffiliateBanner />
 
       <article className="affiliate-prose">
         <ReactMarkdown

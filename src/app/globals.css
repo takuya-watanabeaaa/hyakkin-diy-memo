@@ -2,7 +2,9 @@
 
 :root {
   --bg-color: #f7f5f0;
+  --bg-card: #ffffff;
   --text-main: #3d3733;
+  --text-color: #3d3733;
   --text-muted: #786f68;
   --accent-color: #a38771;
   --accent-dark: #6e5c4f;
@@ -96,6 +98,17 @@ a:hover {
 .main-content {
   min-height: calc(100vh - 70px - 100px);
   padding: 40px 0;
+}
+
+.site-affiliate-banner-wrap {
+  padding: 12px 0 8px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.site-affiliate-banner-wrap .rakuten-affiliate-banner {
+  margin: 0 auto;
+  max-width: 640px;
 }
 
 .footer {
