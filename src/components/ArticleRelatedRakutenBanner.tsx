@@ -1,4 +1,5 @@
 import type { Article } from '@/data/articles';
+import { AffiliateTrackedLink } from '@/components/AffiliateTrackedLink';
 import { resolveArticleRelatedRakuten } from '@/lib/article-premium-affiliate';
 
 type Props = {
@@ -31,17 +32,18 @@ export function ArticleRelatedRakutenBanner({ article }: Props) {
         <p className="article-related-rakuten__kw" title={r.mainKeyword}>
           メインの検索ワード: <span>{r.mainKeyword}</span>
         </p>
-        <a
+        <AffiliateTrackedLink
           href={r.mainHref}
-          target="_blank"
           rel={sponsoredRel(r.mainAffiliate)}
           className="article-related-rakuten__banner-link"
+          placement="article_related_main"
+          articleId={article.id}
         >
           <span className="article-related-rakuten__banner-title">楽天市場</span>
           <span className="article-related-rakuten__banner-sub">
             この記事の関連商品（検索結果）<span aria-hidden> →</span>
           </span>
-        </a>
+        </AffiliateTrackedLink>
 
         {r.ingredients.length > 0 ? (
           <div className="article-related-rakuten__materials">
@@ -51,15 +53,16 @@ export function ArticleRelatedRakutenBanner({ article }: Props) {
             <ul className="article-related-rakuten__chip-list">
               {r.ingredients.map((item) => (
                 <li key={item.query}>
-                  <a
+                  <AffiliateTrackedLink
                     href={item.href}
-                    target="_blank"
                     rel={sponsoredRel(item.isAffiliate)}
                     className="article-related-rakuten__chip"
                     title={`楽天市場で「${item.query}」を検索`}
+                    placement="article_related_chip"
+                    articleId={article.id}
                   >
                     {item.label}
-                  </a>
+                  </AffiliateTrackedLink>
                 </li>
               ))}
             </ul>

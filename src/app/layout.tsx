@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { RakutenAffiliateBanner } from "@/components/RakutenAffiliateBanner";
 import { siteUrl } from "@/lib/site";
@@ -66,6 +67,9 @@ export default function RootLayout({
         <footer className="footer">
           <p>© 2026 100均DIYメモ</p>
         </footer>
+        <Analytics
+          debug={process.env.NEXT_PUBLIC_VERCEL_ANALYTICS_DEBUG === '1'}
+        />
       </body>
     </html>
   );
