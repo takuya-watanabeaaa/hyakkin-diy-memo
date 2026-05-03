@@ -345,10 +345,136 @@ a:hover {
   aspect-ratio: 16/9;
   object-fit: cover;
   border-radius: var(--radius);
-  margin-bottom: 40px;
+  margin-bottom: 28px;
 }
 
-/* YouTube 記事: 上位互換検索バナー（Amazon / 楽天） */
+/* 記事: 楽天「関連商品」（検索結果 HGC） */
+.article-related-rakuten {
+  margin: 0 0 36px;
+}
+
+.article-related-rakuten__inner {
+  padding: 20px 22px;
+  border-radius: var(--radius);
+  border: 2px solid rgba(191, 0, 0, 0.28);
+  background: linear-gradient(
+    165deg,
+    rgba(255, 235, 235, 0.65) 0%,
+    #ffffff 48%
+  );
+  box-shadow: var(--shadow-sm);
+}
+
+.article-related-rakuten__eyebrow {
+  margin: 0 0 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #8b0000;
+}
+
+.article-related-rakuten__lead {
+  margin: 0 0 12px;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: var(--text-main);
+}
+
+.article-related-rakuten__kw {
+  margin: 0 0 14px;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+  word-break: break-word;
+}
+
+.article-related-rakuten__kw span {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.article-related-rakuten__banner-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 16px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  background: linear-gradient(135deg, #e53935 0%, #bf0000 55%, #8b0000 100%);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(191, 0, 0, 0.35);
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+.article-related-rakuten__banner-link:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
+
+.article-related-rakuten__banner-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.article-related-rakuten__banner-sub {
+  font-size: 0.76rem;
+  font-weight: 500;
+  opacity: 0.92;
+}
+
+.article-related-rakuten__materials {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(191, 0, 0, 0.15);
+}
+
+.article-related-rakuten__materials-label {
+  margin: 0 0 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.article-related-rakuten__chip-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.article-related-rakuten__chip {
+  display: inline-block;
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text-main);
+  background: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  text-decoration: none;
+  max-width: 100%;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.article-related-rakuten__chip:hover {
+  border-color: rgba(191, 0, 0, 0.45);
+  background: #fff8f8;
+}
+
+.article-related-rakuten__note {
+  margin: 14px 0 0;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+/* YouTube 記事: 上位互換検索バナー（Amazon） */
 .article-youtube-premium-affiliate {
   margin-top: 28px;
 }
@@ -378,6 +504,13 @@ a:hover {
   font-size: 0.92rem;
   line-height: 1.65;
   color: var(--text-main);
+}
+
+.article-youtube-premium-affiliate__hint {
+  margin: 0 0 12px;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--text-muted);
 }
 
 .article-youtube-premium-affiliate__kw {

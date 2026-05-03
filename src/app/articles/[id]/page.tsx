@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { articles } from '@/data/articles';
 import { itemCategories, roomCategories } from '@/data/categories';
+import { ArticleRelatedRakutenBanner } from '@/components/ArticleRelatedRakutenBanner';
 import { ArticleYoutubePremiumAffiliate } from '@/components/ArticleYoutubePremiumAffiliate';
 import YouTubeEmbed from '@/components/YouTubeEmbed';
 import { absoluteUrl } from '@/lib/site';
@@ -121,6 +122,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
         </div>
 
         <img src={article.hero_image} alt={article.title} className="article-hero-image" width={1280} height={720} />
+
+        <ArticleRelatedRakutenBanner article={article} />
 
         <div className="article-content">
           

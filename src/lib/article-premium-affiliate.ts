@@ -49,6 +49,77 @@ export type ArticlePremiumAffiliateResolved = {
   rakutenAffiliate: boolean;
 };
 
+/** 「使うもの」から楽天検索語へ（括弧や説明を薄めて検索しやすくする） */
+export function ingredientToSearchQuery(name: string): string {
+  return name
+    .replace(/（[^）]*）/g, ' ')
+    .replace(/\([^)]*\)/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 80);
+}
+
+export type IngredientRakutenLink = {
+  label: string;
+  query: string;
+  href: string;
+  isAffiliate: boolean;
+};
+
+export type ArticleRelatedRakutenResolved = {
+  mainKeyword: string;
+  mainHref: string;
+  mainAffiliate: boolean;
+  ingredients: IngredientRakutenLink[];
+};
+
+/**
+ * 記事ごとの「関連商品」用: 楽天市場検索（HGC）へ。
+ * 個別商品ページではなく検索結果（商品一覧）への誘導。
+ */
+export function resolveArticleRelatedRakuten(
+  article: Article,
+): ArticleRelatedRakutenResolved {
+  const mainKeyword = premiumAffiliateSearchKeyword(article);
+  const kw = mainKeyword.trim().slice(0, 120);
+  const mainAff = buildRakutenHgcSearchAffiliateUrl(mainKeyword);
+  const mainHref =
+    mainAff ??
+    `https://search.rakuten.co.jp/search/mall?sitem=${encodeURIComponent(kw)}`;
+  const mainAffiliate = !!mainAff;
+
+  const seen = new Set<string>();
+  seen.add(kw.toLowerCase());
+
+  const ingredients: IngredientRakutenLink[] = [];
+  for (const ing of article.ingredients) {
+    if (ingredients.length >= 4) break;
+    const query = ingredientToSearchQuery(ing.name).slice(0, 120);
+    if (query.length < 2) continue;
+    const key = query.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+
+    const aff = buildRakutenHgcSearchAffiliateUrl(query);
+    const href =
+      aff ??
+      `https://search.rakuten.co.jp/search/mall?sitem=${encodeURIComponent(query)}`;
+    ingredients.push({
+      label: ing.name,
+      query,
+      href,
+      isAffiliate: !!aff,
+    });
+  }
+
+  return {
+    mainKeyword,
+    mainHref,
+    mainAffiliate,
+    ingredients,
+  };
+}
+
 /** 環境変数がなくても常に検索 URL を返す（本番でバナーが消えないようにする） */
 export function resolveArticlePremiumAffiliate(
   article: Article,
