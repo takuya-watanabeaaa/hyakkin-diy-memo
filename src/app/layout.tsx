@@ -62,7 +62,17 @@ export default function RootLayout({
           {children}
         </main>
         <footer className="footer">
-          <p>© 2026 100均DIYメモ</p>
+          <div className="footer-inner">
+            <nav className="footer-nav" aria-label="フッター">
+              <Link href="/about">このサイトについて</Link>
+              <Link href="/disclosure">広告開示</Link>
+              <Link href="/privacy">プライバシーポリシー</Link>
+            </nav>
+            <p className="footer-disclosure">
+              当サイトは楽天アフィリエイト・Amazon アソシエイト等の広告プログラムに参加しています。記事内のリンクから商品が購入された場合、当サイトに紹介料が支払われることがあります。
+            </p>
+            <p>© 2026 100均DIYメモ</p>
+          </div>
         </footer>
         <Analytics
           debug={process.env.NEXT_PUBLIC_VERCEL_ANALYTICS_DEBUG === '1'}

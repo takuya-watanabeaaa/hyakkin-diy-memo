@@ -1,99 +1,153 @@
-'use client';
-
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import { useState } from 'react';
 import { articles } from '@/data/articles';
 import { itemCategories, roomCategories } from '@/data/categories';
+import { HomeArticleGrid } from '@/components/HomeArticleGrid';
+import { absoluteUrl, siteInfo, siteUrl } from '@/lib/site';
 
-export default function Home() {
-  const [activeItem, setActiveItem] = useState('all');
-  const [activeRoom, setActiveRoom] = useState('all');
+export const metadata: Metadata = {
+  title: '100均DIYメモ｜ダイソー・セリアでできる収納・小物づくり',
+  description:
+    'ダイソー・セリアの材料を使ったキャスター付き収納・壁面収納・隙間活用などのDIYレシピを、材料費の目安・つくる時間・手順つきでまとめています。',
+  alternates: {
+    canonical: '/',
+  },
+};
 
-  const filtered = articles.filter(a => {
-    const itemMatch = activeItem === 'all' || a.item_category === activeItem;
-    const roomMatch = activeRoom === 'all' || a.room_category === activeRoom;
-    return itemMatch && roomMatch;
-  });
+const ROOM_PAGES = roomCategories.filter((c) => c.id !== 'all');
+const ITEM_PAGES = itemCategories.filter((c) => c.id !== 'all');
+
+export default function HomePage() {
+  const total = articles.length;
+
+  // 人気カテゴリ枠（記事数が多いものから）
+  const itemSummary = ITEM_PAGES.map((c) => ({
+    ...c,
+    count: articles.filter((a) => a.item_category === c.id).length,
+  }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 6);
+
+  const featured = articles.slice(0, 3);
+  const newest = articles.slice(0, 6);
+
+  const websiteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: siteInfo.name,
+    description: siteInfo.description,
+    url: siteUrl,
+    inLanguage: siteInfo.language,
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${siteUrl}/?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
+  const orgJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: siteInfo.name,
+    url: siteUrl,
+  };
+
+  const itemListJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: featured.map((a, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: absoluteUrl(`/articles/${a.id}`),
+      name: a.title,
+    })),
+  };
 
   return (
-    <div className="container">
-      <section className="hero">
-        <div className="hero-box">
-          <h1>100均DIYメモ</h1>
-          <p>
-            ダイソーやセリアで買えるすのこ・ネット・キャスターなどをつなぎ合わせて、収納や見た目を少しよくする試しごとを書き溜めています。
-            <br />
-            記事には材料の目安と手順メモがあるので、気になるものから真似してみてください。
-          </p>
-        </div>
-      </section>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+      />
 
-      {/* ── 商品で探す ── */}
-      <section className="filter-section">
-        <p className="filter-label">🛒 商品で探す</p>
-        <div className="filter-tabs">
-          {itemCategories.map(cat => (
-            <button
-              key={cat.id}
-              className={`filter-tab ${activeItem === cat.id ? 'active' : ''}`}
-              onClick={() => setActiveItem(cat.id)}
-            >
-              {cat.emoji} {cat.label}
-            </button>
-          ))}
-        </div>
-      </section>
+      <div className="container">
+        <section className="hero">
+          <div className="hero-box">
+            <p className="hero-eyebrow">100円ショップ × 収納・インテリアDIY</p>
+            <h1>家にあるもので、暮らしを少しよくする。</h1>
+            <p>
+              ダイソーやセリアで買える <strong>すのこ・ワイヤーネット・キャスター・マグネット</strong>{' '}
+              を組み合わせて作る、<strong>{total}本以上</strong>のDIYレシピ集です。<br />
+              市販品より大幅に安く、賃貸でも試しやすいアイデアを中心にまとめています。
+            </p>
+            <div className="hero-actions">
+              <a href="#articles" className="btn">レシピを探す</a>
+              <Link href="/category/caster" className="btn btn-ghost">人気: キャスター</Link>
+            </div>
+          </div>
+        </section>
 
-      {/* ── 目的で探す ── */}
-      <section className="filter-section">
-        <p className="filter-label">🏠 場所・目的で探す</p>
-        <div className="filter-tabs">
-          {roomCategories.map(cat => (
-            <button
-              key={cat.id}
-              className={`filter-tab ${activeRoom === cat.id ? 'active' : ''}`}
-              onClick={() => setActiveRoom(cat.id)}
-            >
-              {cat.emoji} {cat.label}
-            </button>
-          ))}
-        </div>
-      </section>
+        {/* ── 人気カテゴリ ── */}
+        <section className="home-section" aria-labelledby="cat-heading">
+          <h2 id="cat-heading" className="section-title">アイテムから探す</h2>
+          <div className="cat-card-grid">
+            {itemSummary.map((cat) => (
+              <Link key={cat.id} href={`/category/${cat.id}`} className="cat-card">
+                <span className="cat-card-emoji" aria-hidden>
+                  {cat.emoji}
+                </span>
+                <span className="cat-card-label">{cat.label}</span>
+                <span className="cat-card-desc">{cat.desc}</span>
+                <span className="cat-card-count">{cat.count}件</span>
+              </Link>
+            ))}
+          </div>
+        </section>
 
-      {/* ── 記事グリッド ── */}
-      <section>
-        <h2 className="section-title">
-          {filtered.length > 0 ? `${filtered.length}件の記事` : '該当する記事がありません'}
-        </h2>
-        <div className="grid">
-          {filtered.map((article) => (
-            <article key={article.id} className="card">
-              <img src={article.hero_image} alt={article.title} className="card-image" />
-              <div className="card-content">
-                <div style={{ display: 'flex', gap: '6px', marginBottom: '6px', flexWrap: 'wrap' }}>
-                  {article.is_100yen_only ? (
-                    <span className="tag" style={{ background: '#e0f2f1', color: '#00796b' }}>🔰100均のみ</span>
-                  ) : (
-                    <span className="tag" style={{ background: '#fff3e0', color: '#e65100' }}>🛠️併用DIY</span>
-                  )}
-                  <span className="tag tag-item">{itemCategories.find(c => c.id === article.item_category)?.emoji} {itemCategories.find(c => c.id === article.item_category)?.label}</span>
-                  <span className="tag tag-room">{roomCategories.find(c => c.id === article.room_category)?.emoji} {roomCategories.find(c => c.id === article.room_category)?.label}</span>
+        {/* ── 最新ピックアップ ── */}
+        <section className="home-section" aria-labelledby="pick-heading">
+          <h2 id="pick-heading" className="section-title">編集部ピックアップ</h2>
+          <div className="pickup-grid">
+            {newest.slice(0, 3).map((a) => (
+              <Link key={a.id} href={`/articles/${a.id}`} className="pickup-card">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={a.hero_image}
+                  alt={a.title}
+                  className="pickup-card-image"
+                  width={1280}
+                  height={720}
+                  loading="eager"
+                  decoding="async"
+                />
+                <div className="pickup-card-body">
+                  <span className="pickup-card-meta">DIY {a.price_diy}・{a.time_est}</span>
+                  <h3 className="pickup-card-title">{a.title}</h3>
                 </div>
-                <h3 className="card-title">{article.title}</h3>
-                <p className="card-desc">{article.desc}</p>
-                <div className="card-footer">
-                  <div>
-                    <del style={{ fontSize: '0.8rem', color: '#999' }}>通常: {article.price_original}</del>
-                    <br />
-                    <strong style={{ color: 'var(--accent-color)', fontSize: '1rem' }}>DIY: {article.price_diy}</strong>
-                  </div>
-                  <Link href={`/articles/${article.id}`} className="btn" style={{ padding: '8px 16px' }}>作り方を見る</Link>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-    </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* ── アフィリエイト開示 (ステマ規制対応) ── */}
+        <p className="home-disclosure" id="articles">
+          ※ 当サイトには <Link href="/disclosure">アフィリエイト広告</Link>{' '}
+          が含まれます。商品リンクは楽天市場・Amazon の検索結果へのリンクで、お買い物の参考用です。
+        </p>
+
+        <HomeArticleGrid articles={articles} />
+      </div>
+    </>
   );
 }

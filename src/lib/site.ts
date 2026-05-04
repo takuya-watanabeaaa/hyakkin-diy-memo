@@ -1,4 +1,4 @@
-const DEFAULT_SITE_URL = 'https://100yen-diy.vercel.app';
+const DEFAULT_SITE_URL = 'https://hyakkin-diy-prod.vercel.app';
 
 function normalizeSiteUrl(raw: string | undefined): string {
   const t = raw?.trim();
@@ -36,3 +36,14 @@ export function absoluteUrl(path: string): string {
   const p = path.startsWith('/') ? path : `/${path}`;
   return `${siteUrl}${p}`;
 }
+
+/** サイト全体の固定情報（JSON-LD・フッター・OG などで参照） */
+export const siteInfo = {
+  name: '100均DIYメモ',
+  shortName: '100均DIYメモ',
+  tagline: 'ダイソー・セリア中心の小さな工作記録',
+  description:
+    'すのこ・ワイヤーネット・キャスター・マグネットなど、100円ショップで手に入る材料を組み合わせた収納や棚づくりのアイデアを、材料の目安・手順・つくる時間つきでまとめています。',
+  locale: 'ja_JP',
+  language: 'ja',
+} as const;
