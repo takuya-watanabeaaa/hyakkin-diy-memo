@@ -24,13 +24,11 @@ export function ArticleRelatedRakutenBanner({ article }: Props) {
     >
       <div className="article-related-rakuten__inner">
         <p className="article-related-rakuten__eyebrow">
-          {r.mainAffiliate ? '関連商品を探す（PR · 楽天市場）' : '関連商品を探す（楽天市場）'}
+          {r.mainAffiliate ? '材料・パーツをまとめて探す（PR · 楽天市場）' : '材料・パーツをまとめて探す（楽天市場）'}
         </p>
         <p className="article-related-rakuten__lead">
-          この記事の内容に近い<strong>商品一覧</strong>を、楽天市場の検索結果から開けます（トップページではなく検索結果へジャンプします）。
-        </p>
-        <p className="article-related-rakuten__kw" title={r.mainKeyword}>
-          メインの検索ワード: <span>{r.mainKeyword}</span>
+          百均で見つからないサイズや色、あとから買い足したい<strong>キャスター・ネジ・塗料</strong>などは、
+          この記事向けに絞った<strong>楽天市場の検索結果</strong>からまとめて探せます。
         </p>
         <AffiliateTrackedLink
           href={r.mainHref}
@@ -39,9 +37,9 @@ export function ArticleRelatedRakutenBanner({ article }: Props) {
           placement="article_related_main"
           articleId={article.id}
         >
-          <span className="article-related-rakuten__banner-title">楽天市場</span>
+          <span className="article-related-rakuten__banner-title">楽天市場で材料を探す</span>
           <span className="article-related-rakuten__banner-sub">
-            この記事の関連商品（検索結果）<span aria-hidden> →</span>
+            「{r.mainKeyword.slice(0, 28)}{r.mainKeyword.length > 28 ? '…' : ''}」の検索結果<span aria-hidden> →</span>
           </span>
         </AffiliateTrackedLink>
 

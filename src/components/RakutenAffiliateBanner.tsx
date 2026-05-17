@@ -23,7 +23,7 @@ export function RakutenAffiliateBanner() {
         <span className="rakuten-affiliate-banner__bar-text">
           <span className="rakuten-affiliate-banner__brand">楽天市場</span>
           <span className="rakuten-affiliate-banner__tagline">
-            {cfg.isAffiliate ? 'お買い物・検索はこちら（PR）' : 'お買い物・検索はこちら'}
+            {cfg.isAffiliate ? '100均DIYの材料・リメイク用品を探す（PR）' : '100均DIYの材料を探す'}
           </span>
         </span>
         <span className="rakuten-affiliate-banner__chevron" aria-hidden>

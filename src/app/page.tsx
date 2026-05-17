@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { articles } from '@/data/articles';
 import { itemCategories, roomCategories } from '@/data/categories';
 import { HomeArticleGrid } from '@/components/HomeArticleGrid';
+import { estimatedSavingsYen, formatYen, sortArticlesBySavings } from '@/lib/article-savings';
 import { absoluteUrl, siteInfo, siteUrl } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -28,8 +29,8 @@ export default function HomePage() {
     .sort((a, b) => b.count - a.count)
     .slice(0, 6);
 
-  const featured = articles.slice(0, 3);
-  const newest = articles.slice(0, 6);
+  const featured = sortArticlesBySavings(articles).slice(0, 3);
+  const topSavings = estimatedSavingsYen(featured[0]);
 
   const websiteJsonLd = {
     '@context': 'https://schema.org',
@@ -88,14 +89,28 @@ export default function HomePage() {
             <h1>家にあるもので、暮らしを少しよくする。</h1>
             <p>
               ダイソーやセリアで買える <strong>すのこ・ワイヤーネット・キャスター・マグネット</strong>{' '}
-              を組み合わせて作る、<strong>{total}本以上</strong>のDIYレシピ集です。<br />
-              市販品より大幅に安く、賃貸でも試しやすいアイデアを中心にまとめています。
+              を組み合わせて作る、<strong>{total}本以上</strong>のDIYレシピ集です。
+              {topSavings ? (
+                <>
+                  <br />
+                  人気記事では市販品より <strong>約{formatYen(topSavings)}</strong> 安く試せる例もあります。
+                </>
+              ) : null}
             </p>
             <div className="hero-actions">
               <a href="#articles" className="btn">レシピを探す</a>
               <Link href="/category/caster" className="btn btn-ghost">人気: キャスター</Link>
             </div>
           </div>
+        </section>
+
+        <section className="home-trust" aria-label="このサイトでわかること">
+          <ul className="home-trust-list">
+            <li><strong>材料費の目安</strong>（百均中心）</li>
+            <li><strong>つくる時間</strong>の目安</li>
+            <li><strong>市販品との差額</strong>がわかる比較</li>
+            <li>足りない材料は<strong>楽天検索</strong>でまとめて探せる（PR）</li>
+          </ul>
         </section>
 
         {/* ── 人気カテゴリ ── */}
@@ -117,9 +132,12 @@ export default function HomePage() {
 
         {/* ── 最新ピックアップ ── */}
         <section className="home-section" aria-labelledby="pick-heading">
-          <h2 id="pick-heading" className="section-title">編集部ピックアップ</h2>
+          <h2 id="pick-heading" className="section-title">いちばんおトクに試せるDIY</h2>
+          <p className="section-lead">市販品との差額が大きい順にピックアップしています。</p>
           <div className="pickup-grid">
-            {newest.slice(0, 3).map((a) => (
+            {featured.map((a) => {
+              const save = estimatedSavingsYen(a);
+              return (
               <Link key={a.id} href={`/articles/${a.id}`} className="pickup-card">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -132,11 +150,15 @@ export default function HomePage() {
                   decoding="async"
                 />
                 <div className="pickup-card-body">
+                  {save ? (
+                    <span className="pickup-card-save">市販より約{formatYen(save)}おトク</span>
+                  ) : null}
                   <span className="pickup-card-meta">DIY {a.price_diy}・{a.time_est}</span>
                   <h3 className="pickup-card-title">{a.title}</h3>
                 </div>
               </Link>
-            ))}
+              );
+            })}
           </div>
         </section>
 

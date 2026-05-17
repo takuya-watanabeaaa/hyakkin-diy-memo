@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import type { Article } from '@/data/articles';
 import { itemCategories, roomCategories } from '@/data/categories';
+import { estimatedSavingsYen, formatYen } from '@/lib/article-savings';
 
 type Props = {
   articles: Article[];
@@ -89,6 +90,7 @@ export function HomeArticleGrid({ articles }: Props) {
           {filtered.map((article, idx) => {
             const item = itemCategories.find((c) => c.id === article.item_category);
             const room = roomCategories.find((c) => c.id === article.room_category);
+            const save = estimatedSavingsYen(article);
             return (
               <article key={article.id} className="card">
                 <Link href={`/articles/${article.id}`} className="card-image-link">
@@ -105,6 +107,9 @@ export function HomeArticleGrid({ articles }: Props) {
                 </Link>
                 <div className="card-content">
                   <div className="card-tag-row">
+                    {save ? (
+                      <span className="tag tag-save">約{formatYen(save)}おトク</span>
+                    ) : null}
                     {article.is_100yen_only ? (
                       <span className="tag tag-only">🔰100均のみ</span>
                     ) : (

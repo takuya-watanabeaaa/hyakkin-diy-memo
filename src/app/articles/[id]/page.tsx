@@ -3,8 +3,11 @@ import Link from 'next/link';
 import { articles, type Article } from '@/data/articles';
 import { itemCategories, roomCategories } from '@/data/categories';
 import { ArticleRelatedRakutenBanner } from '@/components/ArticleRelatedRakutenBanner';
+import { ArticleSavingsCallout } from '@/components/ArticleSavingsCallout';
+import { ArticleStickyShopBar } from '@/components/ArticleStickyShopBar';
 import { ArticleYoutubePremiumAffiliate } from '@/components/ArticleYoutubePremiumAffiliate';
 import { IngredientsAffiliateList } from '@/components/IngredientsAffiliateList';
+import { resolveArticleRelatedRakuten } from '@/lib/article-premium-affiliate';
 import YouTubeEmbed from '@/components/YouTubeEmbed';
 import { absoluteUrl } from '@/lib/site';
 import { articleJsonLd, breadcrumbJsonLd, howtoJsonLd } from '@/lib/jsonld';
@@ -82,6 +85,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
     }
     if (related.length >= 6) break;
   }
+
+  const rakuten = resolveArticleRelatedRakuten(article);
 
   const breadcrumbItems = [
     { name: 'ホーム', href: '/' },
@@ -171,6 +176,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
           loading="eager"
           decoding="async"
         />
+
+        <ArticleSavingsCallout article={article} />
 
         {/* 目次 */}
         <nav aria-label="目次" className="article-toc">
@@ -266,6 +273,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
           </p>
         </div>
       </div>
+
+      <ArticleStickyShopBar
+        articleId={article.id}
+        href={rakuten.mainHref}
+        isAffiliate={rakuten.mainAffiliate}
+      />
     </>
   );
 }
