@@ -1,4 +1,0 @@
-# CLI デプロイ時に誤ってアップロードされないよう除外（Vercel 上は Dashboard の Env を使う）
-.env
-.env.*
-!.env.example
